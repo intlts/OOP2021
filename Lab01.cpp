@@ -1,3 +1,5 @@
+// Lab01.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
 #include <iostream>
 #include <conio.h>
 
@@ -5,47 +7,57 @@ using namespace std;
 
 int var = 2021;
 
+// Declararea functiilor
+
 void print_data_types_sizes();
-void  example_scope_operator();
+void scope_operator_example();
+void pointers_example_2();
+void pointers_example_1();
 
 int main()
 {
-	//Apelam functia care exemplifica utilitatea operatorului de scop
-	example_scope_operator();
+	// Functie care exemplifica utilizarea operatorului de scop
+	scope_operator_example();
 
-	//Apelam functia care afiseaza dimensiunile tipurilor de date - in octeti (bytes)
+	// Functie care afiseaza dimensiunile tipurilor de date - in octeti (bytes)
 	print_data_types_sizes();
 
+	// Functie de exemplificare a utilizarii pointerilor - valori vs. adrese de memorie
+	// Operatorul de adresare (referentiere) si operatorul de redirectare (dereferentiere)
+	pointers_example_1();
 
-	// Citeste un singur caracter de la tastatura. 
-	//Util pentru a "pune pe pauza" executia aplicatiei, pana la apasarea unei taste
-	_getch();
-	
+	// Functie de exemplificare a operatiilor cu pointeri
+	pointers_example_2();
+}
 
- }
+
+// Definirea functiilor
 
 void print_data_types_sizes()
 {
-	cout << "BOOL: " << sizeof(bool) << endl;
+	// boolean - true sau false => 0 sau 1
+	cout << "bool: " << sizeof(bool) << "   -   bool*: " << sizeof(bool*) << endl;
 
-	cout << "CHAR: " << sizeof(char) << endl;
-	cout << "WCHAR_T: " << sizeof(wchar_t) << endl;
+	// character
+	cout << "char: " << sizeof(char) << "   -   char*: " << sizeof(char*) << endl;
+	cout << "wchar_t: " << sizeof(wchar_t) << "   -   wchar_t*: " << sizeof(wchar_t*) << endl;
 
-	cout << "SHORT: " << sizeof(short) << endl;
-	cout << "INT: " << sizeof(int) << endl;
-	cout << "LONG: " << sizeof(long) << endl;
-	cout << "LONG LONG: " << sizeof(long long) << endl;
+	// integer - valori intregi - fara virgula
+	cout << "short: " << sizeof(short) << "   -   short*: " << sizeof(short*) << endl;
+	cout << "int: " << sizeof(int) << "   -   int*: " << sizeof(int*) << endl;
+	cout << "long: " << sizeof(long) << "   -   long*: " << sizeof(long*) << endl;
+	cout << "long long: " << sizeof(long long) << "   -   long long*: " << sizeof(long long*) << endl;
 
-	cout << "FLOAT: " << sizeof(float) << endl;
-	cout << "DOUBLE: " << sizeof(double) << endl;
-	cout << "LONG DOUBLE: " << sizeof(long double) << endl;
+	// floating point - valori care contin si parte fractionara
+	cout << "float: " << sizeof(float) << "   -   float*: " << sizeof(float*) << endl;
+	cout << "double: " << sizeof(double) << "   -   double*: " << sizeof(double*) << endl;
+	cout << "long double: " << sizeof(long double) << "   -   long double*: " << sizeof(long double*) << endl;
 
-	cout<< endl;
+	cout << endl;
 	_getch();
-
 }
 
-void example_scope_operator()
+void scope_operator_example()
 {
 	int var = 1234;
 
@@ -56,16 +68,127 @@ void example_scope_operator()
 	_getch();
 }
 
-void pointer_example_1()
+void pointers_example_1()
 {
-	//int a = 3, b = 5, *c = nullptr, *d = nullptr;
-	////c = &(::a);
-	//int* x = c + 1;
-	////Asta genereaza eroare pt ca se modifica o valoare din zona de memorie apropiata de zona variabilei a
-	////*x = 7;
-	//d = &b;
+	// Se declara variabilele locale, vizibile doar in cadrul functiei - function scope
+	// Se initializeaza fiecare variabila cu o valoare, in functie de tipul de date
 
-	//int s_a = sizeof(int), s_b = sizeof(b);
+	int a = 3;
+	int b = 5;
+	int var = 5478;
+	int* ptr_a = nullptr;
+	int* ptr_b = nullptr;
+	int* ptr_var = nullptr;
+	int* ptr_global_var = nullptr;
+	char c = 'A';
+	char* ptr_c = nullptr;
 
-	//printf("%h\n", *c);
+	// Se copiaza adresa variabilei a in variabila de tip pointer -> int *ptr_a
+	ptr_a = &a;
+
+	// Se copiaza adresa variabilei b in variabila de tip pointer -> int *ptr_b
+	ptr_b = &b;
+
+	// ...
+	ptr_var = &var;
+
+	//  ...
+	ptr_global_var = &(::var);
+
+	// ...
+	ptr_c = &c;
+
+	cout << endl << endl << "### Valorile stocate in variabile si adresele de memorie ale variabilelor" << endl;
+	// Afisam valorile stocate si adresele de memorie pentru fiecare variabila
+	cout << "a: " << "Valoarea: " << a << "  -  la adresa: " << ptr_a << endl;
+	cout << "b: " << "Valoarea: " << b << "  -  la adresa: " << ptr_b << endl;
+	cout << "var: " << "Valoarea: " << var << "  -  la adresa: " << ptr_var << endl;
+	cout << "::var: " << "Valoarea: " << ::var << "  -  la adresa: " << ptr_global_var << endl;
+	cout << "c: " << "Valoarea: " << c << "  -  la adresa: " << (void*)ptr_c << endl;  // De ce (void*)?  Discutie
+
+	_getch();
+
+	cout << endl << endl << "### Reafisare folosind operatorul de dereferentiere =>  *" << endl;
+	// Afisam valorile stocate si adresele de memorie pentru fiecare variabila - folosind referentierea + dereferentierea pentru a obtine valoarea variabilei
+	cout << "a: " << "Valoarea: " << *ptr_a << "  -  la adresa: " << ptr_a << endl;
+	cout << "b: " << "Valoarea: " << *ptr_b << "  -  la adresa: " << ptr_b << endl;
+	cout << "var: " << "Valoarea: " << *ptr_var << "  -  la adresa: " << ptr_var << endl;
+	cout << "::var: " << "Valoarea: " << *ptr_global_var << "  -  la adresa: " << ptr_global_var << endl;
+	cout << "c: " << "Valoarea: " << *ptr_c << "  -  la adresa: " << (void*)ptr_c << endl;  // De ce (void*)?  Discutie
+
+	cout << endl << endl;
+}
+
+void pointers_example_2()
+{
+
+	// In acest exemplu nu vom mai afisa valorile/adresele de memorie, vom utiliza doar depanatorul (debugger) din Visual Studio 2019
+	
+
+	// Se declara variabilele locale, vizibile doar in cadrul functiei - function scope
+	// Se initializeaza fiecare variabila cu o valoare, in functie de tipul de date
+
+	int a = 3, b = 5, var = 5478, *ptr_a = &a, *ptr_b = &b, *ptr_var = &var, *ptr_global_var = &(::var);
+
+	char c = 'A', * ptr_c = nullptr;
+
+	short s = 3, * ptr_s = &s;
+
+	float f = 54.3, *ptr_f = &f;
+	double d = 54.3, *ptr_d = &d;
+
+	// Incrementare valoare (exemplificare cu/fara 
+	*ptr_a ++; 
+	
+	*ptr_a --;
+
+	(*ptr_a)++;
+
+	// Incrementare adresa (se incrementeaza valoarea adresei => ptr_a va contine o alta adresa decat adresa de stocare a variabilei a)
+	ptr_a++;
+
+	ptr_a--;
+
+
+
+	// Asemanator ... dar nu exact la fel:
+	// Operatiile cu pointeri se executa tinand cont de dimensiunea tipului de date =>
+	// A se observat diferenta dintre ++ aplicat pe int* vs short*
+
+	*ptr_s++;
+
+	*ptr_s--;
+
+	(*ptr_s++);
+
+	ptr_s++;
+
+
+	// Salvarea unei adrese intr-o variabila de tip pointer
+	int* ptr = ptr_b;
+
+	ptr = ptr_b - 12; //  ptr <= ptr_b - 12*sizeof(int) - pentru ca ptr_b retine adresa variabilei b care este de tipul int
+
+	ptr += 12; // Revenim la adresa anterioara - explicatie scurta +=
+
+	int** ptr_ptr = &ptr; // ptr_ptr retine adresa de memorie in care este stocata valoarea variabilei ptr (ptr si ptr_b au valori egale) care retine adresa unde este stocata valoarea variabilei b;
+
+	// Cum accesam valoarea variabilei b ?
+	cout << "Valoarea variabilei b este: " << **ptr_ptr << endl;
+	cout << "Valoarea variabilei b este: " << b << endl;
+
+
+	//// Similar cu float/double si char
+
+	
+	// # Exemplu de modificare a unei zonei de memorie care nu a fost anterior alocata
+
+	// In variabila x de tip int* (pointer catre o adresa de memorie unde este stocata valoarea unei variabile de tip int) se copiaza adresa zonei de memorie vecina cu adresa variabilei a 
+	int* x = ptr_a + 1;
+
+	// Se modifica valoarea stocata la adresa salvata anterior in variabila x -  valoarea devine 7	
+	// Aceasta modificare va genera o exceptie (in modul debugger) => discutie pe baza exceptiei generate - alocarea memoriei
+	*x = 7;
+	
+	 
 }
