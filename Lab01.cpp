@@ -13,6 +13,8 @@ void print_data_types_sizes();
 void scope_operator_example();
 void pointers_example_2();
 void pointers_example_1();
+void pointers_example_3();
+void pointers_example_4();
 
 int main()
 {
@@ -28,6 +30,12 @@ int main()
 
 	// Functie de exemplificare a operatiilor cu pointeri
 	pointers_example_2();
+
+ 	pointers_example_3();
+
+	pointers_example_4();
+
+	_getch();
 }
 
 
@@ -54,7 +62,7 @@ void print_data_types_sizes()
 	cout << "long double: " << sizeof(long double) << "   -   long double*: " << sizeof(long double*) << endl;
 
 	cout << endl;
-	_getch();
+	// _getch();
 }
 
 void scope_operator_example()
@@ -65,7 +73,7 @@ void scope_operator_example()
 	cout << "Variabila `var` globala: " << ::var << endl;
 
 	cout << endl;
-	_getch();
+	// _getch();
 }
 
 void pointers_example_1()
@@ -106,7 +114,7 @@ void pointers_example_1()
 	cout << "::var: " << "Valoarea: " << ::var << "  -  la adresa: " << ptr_global_var << endl;
 	cout << "c: " << "Valoarea: " << c << "  -  la adresa: " << (void*)ptr_c << endl;  // De ce (void*)?  Discutie
 
-	_getch();
+	// _getch();
 
 	cout << endl << endl << "### Reafisare folosind operatorul de dereferentiere =>  *" << endl;
 	// Afisam valorile stocate si adresele de memorie pentru fiecare variabila - folosind referentierea + dereferentierea pentru a obtine valoarea variabilei
@@ -123,24 +131,24 @@ void pointers_example_2()
 {
 
 	// In acest exemplu nu vom mai afisa valorile/adresele de memorie, vom utiliza doar depanatorul (debugger) din Visual Studio 2019
-	
+
 
 	// Se declara variabilele locale, vizibile doar in cadrul functiei - function scope
 	// Se initializeaza fiecare variabila cu o valoare, in functie de tipul de date
 
 	int a = 3, b = 5, var = 5478, *ptr_a = &a, *ptr_b = &b, *ptr_var = &var, *ptr_global_var = &(::var);
 
-	char c = 'A', * ptr_c = nullptr;
+	char c = 'A', *ptr_c = nullptr;
 
-	short s = 3, * ptr_s = &s;
+	short s = 3, *ptr_s = &s;
 
 	float f = 54.3, *ptr_f = &f;
 	double d = 54.3, *ptr_d = &d;
 
 	// Incrementare valoare (exemplificare cu/fara 
-	*ptr_a ++; 
-	
-	*ptr_a --;
+	*ptr_a++;
+
+	*ptr_a--;
 
 	(*ptr_a)++;
 
@@ -173,14 +181,14 @@ void pointers_example_2()
 
 	int** ptr_ptr = &ptr; // ptr_ptr retine adresa de memorie in care este stocata valoarea variabilei ptr (ptr si ptr_b au valori egale) care retine adresa unde este stocata valoarea variabilei b;
 
-	// Cum accesam valoarea variabilei b ?
+						  // Cum accesam valoarea variabilei b ?
 	cout << "Valoarea variabilei b este: " << **ptr_ptr << endl;
 	cout << "Valoarea variabilei b este: " << b << endl;
 
 
 	//// Similar cu float/double si char
 
-	
+
 	// # Exemplu de modificare a unei zonei de memorie care nu a fost anterior alocata
 
 	// In variabila x de tip int* (pointer catre o adresa de memorie unde este stocata valoarea unei variabile de tip int) se copiaza adresa zonei de memorie vecina cu adresa variabilei a 
@@ -188,7 +196,48 @@ void pointers_example_2()
 
 	// Se modifica valoarea stocata la adresa salvata anterior in variabila x -  valoarea devine 7	
 	// Aceasta modificare va genera o exceptie (in modul debugger) => discutie pe baza exceptiei generate - alocarea memoriei
-	*x = 7;
-	
-	 
+	//*x = 7;
+}
+
+void pointers_example_3()
+{
+	int array_var[100] = { 0 };
+	array_var[0] = 56;
+
+	int* ptr_array_var = new int[100];
+	ptr_array_var[0] = 56;
+	ptr_array_var[1] = 123;
+	*(ptr_array_var + 2) = 125;
+
+	delete ptr_array_var;
+}
+
+void pointers_example_4()
+{
+	char* char_array = new char[17];
+
+	for (int index = 0; index < 16; index++)
+	{
+		char_array[index] = 'a' + index;
+	}
+
+	cout << char_array;
+	cout << endl;
+
+	char_array[16] = '\0';
+
+	cout << char_array;
+	cout << endl;
+
+	char_array = (char*)"Acesta este test";
+
+	cout << char_array;
+	cout << endl;
+
+	char_array[16] = '\0';
+
+	cout << char_array;
+	cout << endl;
+
+	_getch();
 }
